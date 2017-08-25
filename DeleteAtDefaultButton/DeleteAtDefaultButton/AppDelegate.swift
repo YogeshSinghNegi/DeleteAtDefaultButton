@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  DeleteAtDefaultButton
 //
-//  Created by appinventiv on 24/08/17.
+//  Created by yogesh singh negi on 24/08/17.
 //  Copyright © 2017 appinventiv. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  CustomTableViewClassVC.swift
 //  DeleteAtDefaultButton
 //
-//  Created by appinventiv on 24/08/17.
+//  Created by yogesh singh negi on 24/08/17.
 //  Copyright © 2017 appinventiv. All rights reserved.
 //
 
@@ -33,7 +33,7 @@ class CustomTableViewClassVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "My Friends Zone"
+        self.navigationItem.title = "My Friends Zone"
         self.customTableView.delegate = self
         self.customTableView.dataSource = self
         
