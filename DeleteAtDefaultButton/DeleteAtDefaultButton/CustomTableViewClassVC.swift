@@ -15,7 +15,7 @@ import UIKit
 class CustomTableViewClassVC: UIViewController {
     
 //=============================================================//
-//MARK: Stored Property
+//MARK: Stored Property - nameArray
 //=============================================================//
 
     var nameArray = ["Yogesh","Arvind","Sajal","Vinay","Akshay","Negi","Kartik","Aman","Kumar","Verma"]
@@ -60,8 +60,8 @@ class CustomTableViewClassVC: UIViewController {
         customTableView.reloadData()
         
     }
-    
 }
+    
 
 //=============================================================//
 //MARK: CustomTableViewClassVC Class Extension
@@ -100,13 +100,35 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
 //MARK: Deleting Cell
 //=============================================================//
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//
+//        if editingStyle == UITableViewCellEditingStyle.delete{
+//            self.nameArray.remove(at: indexPath.row)
+//            tableView.reloadData()
+//
+//        }
+//    }
+    
+//=============================================================//
+//MARK: User Define Method for Custom Delete Button On Swipe
+//=============================================================//
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        if editingStyle == UITableViewCellEditingStyle.delete{
+        //Custom Delete Button on Swipe
+        let myDeleteButton = UITableViewRowAction(style: .default, title: "Delete", handler: {(action,indexPath) in
             self.nameArray.remove(at: indexPath.row)
             tableView.reloadData()
-            
-        }
+        })
+        
+        //Custom Change Name Button on Swipe
+        let changeLabelName = UITableViewRowAction(style: .default, title: "Change_Name", handler: {(action,indexPath) in
+            self.nameArray.remove(at: indexPath.row)
+            self.nameArray.insert("AppInventiv", at: indexPath.row)
+            tableView.reloadData()
+        })
+        
+        return [changeLabelName,myDeleteButton]
     }
     
 //=============================================================//
