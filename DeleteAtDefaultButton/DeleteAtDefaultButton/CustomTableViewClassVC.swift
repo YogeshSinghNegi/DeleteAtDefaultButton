@@ -21,11 +21,10 @@ class CustomTableViewClassVC: UIViewController {
     var nameArray = ["Yogesh","Arvind","Sajal","Vinay","Akshay","Negi","Kartik","Aman","Kumar","Verma"]
     
 //=============================================================//
-//MARK: Defining IBOutlets
+//MARK: Defining IBOutlets of TableView
 //=============================================================//
     
     @IBOutlet weak var customTableView: UITableView!
-    
     
 //=============================================================//
 //MARK: View Methods
@@ -34,16 +33,34 @@ class CustomTableViewClassVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "My Friends Zone"
         self.customTableView.delegate = self
         self.customTableView.dataSource = self
         
     }
+    
+//=============================================================//
+//MARK: Dispose of any resources that can be recreated
+//=============================================================//
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
+    }
+    
+//=============================================================//
+//MARK: Defining IBAction of Custom Delete Button
+//=============================================================//
+    
+    @IBAction func customDeleteBtnTapped(_ sender: UIButton) {
+        
+        guard let tableCell = getCell(button: sender) as? CellForRowClass else{fatalError()}
+        guard let indexPath = self.customTableView.indexPath(for: tableCell) else {fatalError()}
+        self.nameArray.remove(at: indexPath.row)
+        customTableView.reloadData()
+        
+    }
+    
 }
 
 //=============================================================//
@@ -67,9 +84,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellForRowClass_ID") as? CellForRowClass else { fatalError("Cell Failed to load") }
-        
         cell.nameLabel.text = self.nameArray[indexPath.row]
-        
         return cell
     }
     
@@ -93,7 +108,22 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
             
         }
     }
-  
+    
+//=============================================================//
+//MARK: User Define Method for Getting IndexPath
+//=============================================================//
+
+    func getCell(button: UIButton) -> UITableViewCell{
+        var cell : UIView = button
+        while !(cell is CellForRowClass) {
+            if let super_view = cell.superview {
+                cell = super_view
+            }else{}
+        }
+        guard let tableCell = cell as? CellForRowClass else {fatalError()}
+        return tableCell
+    }
+    
 }
 
 //=============================================================//
@@ -107,6 +137,6 @@ class CellForRowClass: UITableViewCell{
 //=============================================================//
     
     @IBOutlet weak var nameLabel: UILabel!
-    
+
 }
 
