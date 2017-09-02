@@ -100,14 +100,14 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
 //MARK: Deleting Cell
 //=============================================================//
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//
-//        if editingStyle == UITableViewCellEditingStyle.delete{
-//            self.nameArray.remove(at: indexPath.row)
-//            tableView.reloadData()
-//
-//        }
-//    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+
+        if editingStyle == UITableViewCellEditingStyle.delete{
+            self.nameArray.remove(at: indexPath.row)
+            tableView.reloadData()
+
+        }
+    }
     
 //=============================================================//
 //MARK: User Define Method for Custom Delete Button On Swipe
@@ -120,6 +120,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
             self.nameArray.remove(at: indexPath.row)
             tableView.reloadData()
         })
+        myDeleteButton.backgroundColor = UIColor.cyan
         
         //Custom Change Name Button on Swipe
         let changeLabelName = UITableViewRowAction(style: .default, title: "Change_Name", handler: {(action,indexPath) in
@@ -135,14 +136,14 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
 //MARK: User Define Method for Getting IndexPath
 //=============================================================//
 
-    func getCell(button: UIButton) -> UITableViewCell{
+    func getCell(button: UIButton) -> UITableViewCell {
         var cell : UIView = button
         while !(cell is CellForRowClass) {
             if let super_view = cell.superview {
                 cell = super_view
-            }else{}
+            }
         }
-        guard let tableCell = cell as? CellForRowClass else {fatalError()}
+        guard let tableCell = cell as? CellForRowClass else { fatalError() }
         return tableCell
     }
     
@@ -152,7 +153,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
 //MARK: Class for Cell Label
 //=============================================================//
 
-class CellForRowClass: UITableViewCell{
+class CellForRowClass: UITableViewCell {
     
 //=============================================================//
 //MARK: TableView IBOutlet
