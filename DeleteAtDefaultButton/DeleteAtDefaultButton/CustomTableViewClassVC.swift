@@ -15,13 +15,13 @@ import UIKit
 class CustomTableViewClassVC: UIViewController {
     
 //=============================================================//
-//MARK: Stored Property - nameArray
+//MARK: Stored Property - nameArray - Array to display the list of the TableView
 //=============================================================//
-
+   
     var nameArray = ["Yogesh","Arvind","Sajal","Vinay","Akshay","Negi","Kartik","Aman","Kumar","Verma"]
     
 //=============================================================//
-//MARK: Defining IBOutlets of TableView
+//MARK: Defining IBOutlet of TableView
 //=============================================================//
     
     @IBOutlet weak var customTableView: UITableView!
@@ -32,7 +32,7 @@ class CustomTableViewClassVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Setting Title of the Navigation Item
         self.navigationItem.title = "My Friends Zone"
         self.customTableView.delegate = self
         self.customTableView.dataSource = self
@@ -40,24 +40,18 @@ class CustomTableViewClassVC: UIViewController {
     }
     
 //=============================================================//
-//MARK: Dispose of any resources that can be recreated
-//=============================================================//
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-
-    }
-    
-//=============================================================//
 //MARK: Defining IBAction of Custom Delete Button
 //=============================================================//
     
     @IBAction func customDeleteBtnTapped(_ sender: UIButton) {
-        
-        guard let tableCell = getCell(button: sender) as? CellForRowClass else{fatalError()}
-        guard let indexPath = self.customTableView.indexPath(for: tableCell) else {fatalError()}
+        // Getting the current selected row cell
+        guard let tableCell = getCell(button: sender) as? CellForRowClass else{fatalError("Cell failed to load on Delete Button")}
+        guard let indexPath = self.customTableView.indexPath(for: tableCell) else {fatalError("IndexPath failed to load on Delete Button")}
+        // Removing the name of the selected row from the array
         self.nameArray.remove(at: indexPath.row)
-        customTableView.reloadData()
+        // Reloading Table to display the updated list
+        self.customTableView.deleteRows(at: [indexPath], with: .middle)
+        // customTableView.reloadData()
         
     }
 }
@@ -67,7 +61,7 @@ class CustomTableViewClassVC: UIViewController {
 //MARK: CustomTableViewClassVC Class Extension
 //=============================================================//
 
-extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
+extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource {
     
 //=============================================================//
 //MARK: Setting Number Of Cells
@@ -83,7 +77,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellForRowClass_ID") as? CellForRowClass else { fatalError("Cell Failed to load") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellForRowClass_ID") as? CellForRowClass else { fatalError("Cell Failed to load at CellForRow") }
         cell.nameLabel.text = self.nameArray[indexPath.row]
         return cell
     }
@@ -104,7 +98,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
 
         if editingStyle == UITableViewCellEditingStyle.delete{
             self.nameArray.remove(at: indexPath.row)
-            tableView.reloadData()
+            tableView.deleteRows(at: [indexPath], with: .middle)
 
         }
     }
@@ -118,7 +112,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
         //Custom Delete Button on Swipe
         let myDeleteButton = UITableViewRowAction(style: .default, title: "Delete", handler: {(action,indexPath) in
             self.nameArray.remove(at: indexPath.row)
-            tableView.reloadData()
+            tableView.deleteRows(at: [indexPath], with: .middle)
         })
         myDeleteButton.backgroundColor = UIColor.cyan
         
@@ -126,7 +120,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
         let changeLabelName = UITableViewRowAction(style: .default, title: "Change_Name", handler: {(action,indexPath) in
             self.nameArray.remove(at: indexPath.row)
             self.nameArray.insert("AppInventiv", at: indexPath.row)
-            tableView.reloadData()
+            tableView.reloadRows(at: [indexPath], with: .right)
         })
         
         return [changeLabelName,myDeleteButton]
@@ -143,7 +137,7 @@ extension CustomTableViewClassVC: UITableViewDelegate,UITableViewDataSource{
                 cell = super_view
             }
         }
-        guard let tableCell = cell as? CellForRowClass else { fatalError() }
+        guard let tableCell = cell as? CellForRowClass else { fatalError("Cell failed to load on getCell()") }
         return tableCell
     }
     
